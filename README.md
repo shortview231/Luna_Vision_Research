@@ -1,16 +1,49 @@
 # Luna Vision Research
 
-**Research toward reliable real-time assistive computer vision for blind and low-vision users.**
+**Public research and development toward reliable real-time assistive computer vision for blind and low-vision users.**
 
-Luna Vision is an ongoing research and engineering project exploring how modern computer vision, spatial computing, localization, OCR, and multimodal systems can support practical environmental understanding and navigation for blind and low-vision users.
+> ## What this repository is
+> Luna Vision Research documents an **ongoing R&D process**, not a claim that the full Luna Vision system has already been built or validated. It contains literature-backed research, engineering hypotheses, architecture proposals, reproduction plans, experiments, and eventually benchmarked implementations and controlled field evaluations.
+>
+> **A capability described in this repository should not be assumed to exist in Luna unless it is explicitly labeled IMPLEMENTED.** Research findings describe what the evidence suggests should be built and tested.
 
-The project begins with PC and phone-camera prototypes and is intended to inform future wearable systems.
+## Current maturity
 
-> **Status:** Active research. This repository documents research findings, experiments, architecture decisions, benchmarks, and reproducibility work. It is not a finished navigation product and should not be treated as a replacement for established mobility aids or professional orientation and mobility training.
+**Program stage: RESEARCH + ARCHITECTURE**
 
-## Research Program
+The current R-004 program is primarily gathering evidence, identifying reproducible technical baselines, defining system architecture, acquiring research resources, and designing measurable experiments. Some underlying technologies are mature or reproducible upstream, but that does **not** mean Luna has reproduced, implemented, benchmarked, or field-tested them yet.
 
-Current research areas include:
+### R&D status vocabulary
+
+| Status | Meaning |
+| --- | --- |
+| **RESEARCHED** | Supported by literature, primary sources, datasets, or technical investigation. |
+| **PROPOSED** | A Luna-specific architecture, method, or engineering solution has been designed but not yet implemented. |
+| **REPRODUCTION PLANNED** | An upstream result/system has been selected for independent reproduction. |
+| **REPRODUCED** | The relevant upstream experiment or capability has been independently run within the Luna research workflow. |
+| **IMPLEMENTED** | The capability exists in a Luna prototype. |
+| **BENCHMARKED** | The Luna implementation has been measured against defined metrics/test conditions. |
+| **FIELD TESTED** | The implementation has undergone documented controlled real-world evaluation. |
+
+These labels are intentionally conservative. Progression is expected to look like:
+
+`RESEARCHED → PROPOSED / REPRODUCTION PLANNED → REPRODUCED → IMPLEMENTED → BENCHMARKED → FIELD TESTED`
+
+Not every research direction will progress through every stage. Negative results and abandoned approaches are valid R&D outcomes and should be documented when useful.
+
+## Project goal
+
+Luna Vision explores how computer vision, spatial computing, localization, OCR, multimodal systems, and accessible interaction could support practical environmental understanding for blind and low-vision users.
+
+The development strategy begins with instrumented PC and phone-camera prototypes. Wearable hardware is a later-stage target after the underlying perception, localization, mapping, uncertainty, and interaction problems are better understood.
+
+## R-004: Luna Vision Assistive Computer Vision Research
+
+**Current status: RESEARCHED / ARCHITECTURE PROPOSED**
+
+R-004 is investigating what would actually be required to build a reliable real-time assistive computer-vision system rather than beginning with an assumption that a single AI model can solve the problem.
+
+Research areas include:
 
 1. Egocentric computer vision and scene understanding
 2. Object detection and segmentation
@@ -28,13 +61,38 @@ Current research areas include:
 14. Reliability, uncertainty, failure detection, and safety
 15. Evaluation methods centered on blind and low-vision use cases
 
-## Research Philosophy
+## Current research direction
 
-The goal is not simply to make a camera describe an image. A useful assistive vision system needs to maintain useful context over time, understand spatial relationships, distinguish hazards from irrelevant objects, recognize uncertainty, and communicate information without overwhelming the user.
+The strongest architectural conclusion from the initial landscape work is that Luna should be investigated as a **modular, stateful system** rather than as one vision-language model directly converting camera frames into navigation instructions.
 
-Research in this repository therefore treats Luna Vision as a system-level problem involving perception, localization, memory, reasoning, human-computer interaction, accessibility, and safety.
+The proposed research architecture separates:
 
-## Repository Structure
+- sensor capture and synchronization
+- geometry, depth, obstacles, and traversability
+- visual-inertial localization and SLAM
+- persistent spatial memory
+- floor-plan anchoring and re-localization
+- route planning
+- semantic recognition, OCR, and product understanding
+- conversational reasoning grounded in measured state
+- accessible feedback
+- uncertainty, health monitoring, and graceful degradation
+
+**Status: PROPOSED.** This is an architecture derived from the research landscape. It is not a claim that the complete stack has been implemented.
+
+## What exists here today
+
+The public repository currently contains:
+
+- **RESEARCHED:** a state-of-the-field review across the major Luna Vision technical problems
+- **RESEARCHED:** a curated high-value technical source map
+- **PROPOSED:** initial Luna-specific architecture findings and engineering implications
+- **DEFINED:** public research methodology, evidence rules, and publication boundaries
+- **PLANNED:** reproducibility, experiments, benchmarks, and implementation work as R-004 advances
+
+When experimental work begins, each result should identify its exact maturity rather than silently changing a research claim into an implementation claim.
+
+## Repository structure
 
 - `research/` - literature reviews, technology landscape work, and source maps
 - `findings/` - synthesized conclusions and engineering implications
@@ -44,55 +102,53 @@ Research in this repository therefore treats Luna Vision as a system-level probl
 - `reproducibility/` - instructions and records needed to reproduce findings
 - `docs/` - supporting public documentation
 
-## Evidence Labels
+## Research philosophy
 
-Material published here should make its evidence level clear:
+The goal is not simply to make a camera describe an image. A useful assistive system may need to maintain context over time, understand spatial relationships, distinguish hazards from irrelevant objects, recognize uncertainty, and communicate information without overwhelming the user.
 
-- **Literature-supported** - conclusion supported by cited external research
-- **Reproduced** - result independently reproduced within the Luna research workflow
-- **Experimental** - result observed in a Luna experiment but not yet sufficiently validated
-- **Hypothesis** - proposed explanation or architecture requiring testing
-- **Planned** - intended future investigation or implementation
+The research therefore treats Luna Vision as a system-level problem involving perception, localization, memory, reasoning, human-computer interaction, accessibility, and safety.
 
-## Safety and Scope
+A core principle is to separate **evidence from interpretation**. Published literature can justify investigating a method. Reproduction can show that a result can be obtained in the Luna research environment. Implementation can show that the method runs in Luna. Benchmarking can measure how well it performs. Controlled field evaluation is required before making claims about real-world assistive performance.
 
-Assistive navigation is safety-sensitive. Experimental perception output can be incomplete, delayed, or incorrect. Research results in this repository should not be interpreted as proof that a prototype is safe for independent mobility.
+## Safety and scope
 
-Luna Vision is being investigated as an assistive layer, not as justification for removing established mobility tools such as canes, guide dogs, or other appropriate accessibility techniques.
+Assistive navigation is safety-sensitive. Experimental perception can be incomplete, delayed, or incorrect. Nothing in this repository should be interpreted as evidence that an unvalidated prototype is safe for independent mobility.
 
-## Public Research Boundary
+Luna Vision is being investigated as an assistive layer, not as justification for removing established mobility tools such as canes, guide dogs, or appropriate orientation and mobility techniques.
 
-This repository is intentionally public-facing. It may contain research summaries, citations, architecture diagrams, benchmark methodology, reproducible code, aggregate experimental results, and materials appropriate for a technical portfolio.
+Failure cases are first-class research results. Tracking loss, uncertain depth, stale maps, sensor failures, model disagreement, and situations where the system should abstain are part of the research problem rather than edge cases to hide.
+
+## Public research boundary
+
+This repository is intentionally public-facing. Appropriate material includes research summaries, citations, architecture proposals, benchmark methodology, reproducible code, aggregate experimental results, negative findings, and other material useful to researchers, developers, accessibility practitioners, and prospective employers.
 
 Private user data, credentials, private imagery, personally identifying information, proprietary datasets without redistribution rights, and sensitive internal material should not be committed here.
 
-## Current Research Project
+See [`PUBLICATION_POLICY.md`](PUBLICATION_POLICY.md) for the publication rules.
 
-### R-004: Luna Vision Assistive Computer Vision Research
+## Long-term research questions
 
-R-004 is a broad technical investigation intended to determine what is required to build Luna Vision into a reliable real-time assistive computer-vision system, beginning with PC and phone-camera prototypes and progressing toward wearable hardware.
+A mature system would need evidence showing whether it can reliably support questions such as:
 
-The investigation covers perception, depth, SLAM, indoor localization, spatial memory, accessible navigation, OCR and product recognition, retail environments, edge inference, reliability, and human-centered evaluation.
+- What is immediately around the user?
+- Is there an obstacle or drop-off in the path?
+- Where is a doorway, counter, aisle, or destination?
+- What sign, package, product, or label is visible?
+- Has the system observed this location before?
+- Can the current camera pose be localized against a persistent indoor map?
+- Which route is appropriate given accessibility constraints and uncertainty?
+- When should the system refuse to provide guidance because its confidence is insufficient?
 
-Research outputs from R-004 will be progressively published here when they are suitable for public release.
+These are **research targets**, not current capability claims.
 
-## Long-Term Direction
+## Follow the R&D process
 
-A mature Luna Vision system would ideally be capable of combining live visual perception with spatial memory and localization to answer practical questions such as:
+This repository is intended to remain useful even before field testing. The public record will progressively show:
 
-- What is immediately around me?
-- Is there an obstacle or drop-off in my path?
-- Where is the doorway, counter, aisle, or destination I need?
-- What sign, package, product, or label am I looking at?
-- Have I been in this location before?
-- Where am I relative to a known indoor map?
-- Which route is accessible and appropriate for me?
-- How confident is the system in what it is telling me?
+`question → evidence → design decision → reproduction → prototype → benchmark → failure analysis → revision → controlled evaluation`
 
-Achieving that reliably requires considerably more than object detection alone. This repository documents the research path toward that goal.
+The objective is to make both the eventual solution **and the process used to reach it** inspectable.
 
-## Project Status
+## Project status
 
-**Active research and prototyping, August 2026.**
-
-Expect the repository to evolve as experiments are reproduced, architectures are tested, and findings become strong enough for public documentation.
+**Active R&D, August 2026. Current phase: research landscape, architecture, source acquisition, and experiment planning.**
